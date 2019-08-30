@@ -1,0 +1,57 @@
+<p class="exploring">Still exploring your options?</p>
+{% if suitable%}
+    <div class="accordion">
+        <div class="accordion-head" onclick="accordion()">
+            <div class="edit">Review/edit your responses</div>
+            <img class="plus" src="../assets/images/Icon_Plus.png">
+        </div>
+        <div class="accordion-content display-none">
+        {% for question in data %}
+            {% if question.dependencyQuestion == "" %}
+                <div class="accordion-question-block">
+                    <div class="accordion-question">{{question.question}}</div>
+                    <div class="accordion-inputs">
+                        {% if question.type == 'radio' %}
+                            {% for option in question.options %}
+                                <input id="{{option.id}}" type="radio" name="{{question.variable}}" onchange="toggleInputs(this)" class="radio" value="{{option.value}}" {% if  question.isAnswered and (option.value == question.value) %}checked{% endif %}>
+                                <label for="{{option.id}}">{{option.label}}</label>
+                            {% endfor %}
+                        {% endif %}
+                        {% if question.type == 'text' %}
+                            <input type='text' onkeyup="toggleRecalc(this)" name="{{question.variable}}" placeholder = "#" class="text" onkeypress="return isNumeric(event)" value="{{question.value}}">
+                        {% endif %}
+                    </div>
+                </div>
+                {% if question.subQuestions.length %}
+                    {% for subQues in question.subQuestions %}
+                        <div class="accordion-question-block">
+                            <div class="accordion-question">{{subQues.question}}</div>
+                            <div class="accordion-inputs">
+                                <input type='text' onkeyup="toggleRecalc(this)" name="{{subQues.variable}}" quesid="{{subQues.id}}"  placeholder = "#" value="{{subQues.value}}" onkeypress="return isNumeric(event)">
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endif %}
+            {% if question.dependency %}
+                {% set dependentQues = data[question.dependency -1] %}
+                {% if dependentQues.type.length == 0 %}
+                    {% for subQues in dependentQues.subQuestions %}
+                        <div class="accordion-question-block">
+                            <div class="accordion-question">{{subQues.question}}</div>
+                            <div class="accordion-inputs">
+                                <input type='text' onkeyup="toggleRecalc(this)" name="{{subQues.variable}}" quesid="{{subQues.id}}" dependent="{{question.name}}" placeholder = "#" value="{{subQues.value}}" onkeypress="return isNumeric(event)" {% if  question.value == 0 %}disabled="disabled"{% endif %}>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endif %} 
+            {% endif %} 
+        {% endfor %}
+        </div>
+    </div>
+    <a class=" button recalculate-button--link display-none" onclick="recalculate()">Recalculate results</a>
+{% else %}
+    <a onclick="restartCalc()" class=" button restart-button--link footer__bottom--link button-flex">
+    <div>Restart calculator</div>    
+    </a>
+{% endif %}

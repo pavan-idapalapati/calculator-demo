@@ -1,0 +1,56 @@
+<div class="main-parent">
+    <div class="question-container">
+        {% for question in questionData%}
+            <div class="question-block" id="{{question.id}}">
+                <div class="question">
+                    {{question.question}}
+                    {% if question.info == true %}
+                        <span class="tool"  data-tip="{{question.infoText}}" tabindex="1">
+                            <img class="info" src="../assets/images/ICON_Tooltip.png"></img>
+                        </span>
+                    {% endif %}
+                </div>
+                <div class="inputs">
+                    {% if question.type == 'radio' %}
+                        {% for option in question.options %}
+                            <input id="{{option.id}}" type="radio" name="{{question.name}}" class="radio" value="{{option.value}}" {% if  question.isAnswered and (option.value == question.value) %}checked{% endif %} onchange="setRadiovalue(this)">
+                            <label for="{{option.id}}">{{option.label}}</label>
+                        {% endfor %}
+                    {% endif %}
+
+                    {% if question.type == 'text' %}
+                        <input type='text' placeholder = "{{question.placeholder}}" class="text" onkeypress="return isNumeric(event)" onkeyup="setValue(this)" value="{{question.value}}">
+                    {% endif %}
+
+                    {% if question.subQuestions.length %}
+                        {% for subQues in question.subQuestions %}
+                            <div class="sub-question-block">
+                                <div class="sub-question">
+                                    <p>{{subQues.question}}</p>
+                                    {% if subQues.info == true %}
+                                        <span class="info info-sub-question tool" data-tip="{{subQues.infoText}}" tabindex="1">
+                                            <img class="info" src="../assets/images/ICON_Tooltip.png"></img>
+                                        </span>
+                                    {% endif %}
+                                </div>
+                                <input type='text' quesid="{{subQues.id}}" placeholder = "{{subQues.placeholder}}" value="{{subQues.value}}" onkeypress="return isNumeric(event)" onkeyup="setSubQuesValue(this)">
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                </div>
+                <div class="buttons">
+                    <a class="button button-hollow previous" onclick="onBack(this)">Back</a>
+                    <a class="button {% if question.isAnswered == false %}button-disabled{% endif %} next" onclick="onNext(this)">Next</a>
+                </div>
+            </div>
+        {% endfor %}
+        <!-- <div class="buttons">
+            <a class="button button-gray previous" onclick="onBack(this)">Back</a>
+            <a class="button {% if question.isAnswered == false %}button-disabled{% endif %} next" onclick="onNext(this)">Next</a> 
+            <a class="button button-disabled next" onclick="onNext(this)">Next</a>
+        </div>  -->
+    </div>
+</div>
+
+

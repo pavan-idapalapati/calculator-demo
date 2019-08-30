@@ -1,0 +1,142 @@
+var questionData;
+var dataObject;
+var recommendation = {}
+var suitable = true;
+var toggleAccordion = false; //false indicates accordion is closed
+
+$('document').ready(function () {
+    if (sessionStorage['questionData']) {
+        questionData = JSON.parse(sessionStorage['questionData']);
+<<<<<<< HEAD
+        console.log(questionData)
+=======
+>>>>>>> de9c226f148b9a6d4ada7f334c3333c2e8fc4c87
+        // sessionStorage.removeItem('questionData');
+
+        var valueArray = [];
+        $.each(questionData, function (index, value) {
+            if (index > 2) return false;
+            valueArray.push(value['value']);
+        });
+        if (!(valueArray.indexOf(1) > -1)) {
+            suitable = false;
+        }
+        if (suitable) {
+            dataObject = createDataObject(questionData);
+            recommendation = calcResult(dataObject);
+<<<<<<< HEAD
+            recommendation['suitable'] = true;
+        }else{
+            recommendation['heading'] = "Based on your environment, it looks like we have everything we need! "
+=======
+            recommendation['suitable'] = true
+        } else {
+            recommendation['heading'] = "Based on your environment, it looks like this calculator won’t fit your needs. "
+>>>>>>> de9c226f148b9a6d4ada7f334c3333c2e8fc4c87
+            recommendation['suitable'] = false;
+            recommendation['standard'] = 'Server Essentials';
+            recommendation['image'] = 'essentials';
+
+        }
+<<<<<<< HEAD
+        var newTemplate = nunjucks.render('../_partials/results-template.html',recommendation);
+        $('.results').html(newTemplate);
+
+        var accordionTemplate =  nunjucks.render('../_partials/accordion.html',{data: questionData, suitable : recommendation['suitable']});
+=======
+        console.log(recommendation);
+
+        var newTemplate = nunjucks.render('../_partials/results-template.html', recommendation);
+        $('.results').html(newTemplate);
+
+        var accordionTemplate = nunjucks.render('../_partials/accordion.html', recommendation);
+>>>>>>> de9c226f148b9a6d4ada7f334c3333c2e8fc4c87
+        $('.explore-section').html(accordionTemplate);
+
+    } else {
+        // $(location).attr('href', '../');
+    }
+});
+
+function createDataObject(data) {
+    var tempObject = {};
+    $.each(data, function (index, value) {
+        if (value['type'] == 'radio' && value['variable']) {
+            tempObject[value['variable']] = Boolean(value['value']);
+        } else if (value['variable']) {
+            tempObject[value['variable']] = value['value'];
+        }
+        if (value['subQuestions'].length) {
+            $.each(value['subQuestions'], function (ind, val) {
+                tempObject[val['variable']] = val['value'];
+            })
+        }
+    });
+    return tempObject;
+}
+
+function calcResult(input) {
+    var tempVars = {};
+    var result = {};
+    tempVars['N'] = input['B'] * input['C'];
+    tempVars['O'] = Math.max(16, tempVars['N']);
+    tempVars['P'] = tempVars['O'] * input['A'];
+    tempVars['Q'] = input['A'] * 2;
+    tempVars['R'] = Math.max(0, (input['D'] - tempVars['Q']));
+    tempVars['S'] = Math.ceil(tempVars['R'] / 2);
+    tempVars['T'] = tempVars['S'] * tempVars['O'];
+    tempVars['U'] = tempVars['P'] + tempVars['T'];
+    tempVars['V'] = tempVars['P'];
+    tempVars['W'] = (input['E'] - input['F']) < 1 ? "User" : "Device";
+    tempVars['X'] = Math.min(input['E'], input['F']);
+    tempVars['Y'] = (input['G'] - input['H']) < 1 ? "User" : "Device";;
+    tempVars['Z'] = Math.min(input['G'], input['H']);
+
+    var standard = (tempVars['U'] / 5 - tempVars['V']) <= 0 ? "Server Standard" : "Server DataCenter"; // Tells the standard
+
+    var image = (standard == 'Server Standard') ? 'standard' : 'datacenter';
+
+    var CL = (standard == 'Server Standard') ? tempVars['U'] : tempVars['V'];
+
+    var CAL = tempVars['X'] + ' ' + tempVars['W'] + " CAL's";
+
+    var RCAL = tempVars['Z'] + ' Remote Desktop ' + tempVars['Y'] + " CAL's";
+
+    result['heading'] = "Based on the answers, you need";
+    result['CL_count'] = CL;
+    result['CL_type'] = 'Cores of licensing';
+    result['CAL_count'] = tempVars['X'];
+    result['CAL_type'] = tempVars['W'];
+    result['RCAL_count'] = tempVars['Z'];
+    result['RCAL_type'] = 'Remote Desktop ' + tempVars['W'];
+    result['standard'] = standard;
+    result['image'] = image;
+
+    return result;
+<<<<<<< HEAD
+  }
+
+  function accordion(){
+      toggleAccordion = !toggleAccordion;
+      if(toggleAccordion){
+          $('.recalculate-button--link').removeClass('display-none')
+          $('.accordion-content').removeClass('display-none')
+      }else{
+        $('.recalculate-button--link').addClass('display-none');
+        $('.accordion-content').addClass('display-none');
+      }
+  }
+=======
+}
+
+function sheduleACall() {
+    var extras = (dataObject.I ? "1," : "") + (dataObject.J ? "2," : "") + (dataObject.K ? "3," : "")
+    extras = extras.slice(0, -1); // removing last coma
+    var requestUrl = "https://calendly.com/trusted-tech-team-licensing-engineer/15-min-windows-server-call-calc?a2="
+        + dataObject.A + "&a3=" + dataObject.B + "&a4=" + dataObject.C + "&a5=" + dataObject.E + "&a6="
+        + dataObject.F + "&a7=" + dataObject.G + "&a8=" + dataObject.H + "&a9=" + dataObject.D + "&a10="
+        + extras
+    Calendly.showPopupWidget(requestUrl);
+    return false;
+}
+>>>>>>> de9c226f148b9a6d4ada7f334c3333c2e8fc4c87

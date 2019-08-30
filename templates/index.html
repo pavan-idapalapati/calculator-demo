@@ -1,0 +1,16 @@
+{% set svgName = "" %}
+{% set pageTitle = "Homepage" %}
+{% set pageName = "index" %}
+{% extends "templates/sections/_skeleton-layout.html" %}
+{% block before_head_end %}
+	<link rel="stylesheet" href="assets/css/landing.css" type="text/css"></link>
+{% endblock %}
+{% block content %}
+	<div class="main">
+		{% include "templates/variables/_landing.html" %}
+	</div>
+{% endblock %}
+
+{% block before_body_end %}
+    <script src="{{ js_path }}landing.js" type="text/javascript"></script>
+{% endblock %}

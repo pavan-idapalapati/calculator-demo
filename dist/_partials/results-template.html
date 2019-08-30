@@ -1,0 +1,55 @@
+{% if suitable %}
+    <div class="calculator-result suitable-result">
+        <div class="result-heading">{{heading}}</div>  
+        <div class="result-values">
+            <span class="value">{{CL_count}}</span>
+            <span class="type">{{CL_type}}</span>
+        </div>      
+        <div class="result-values">
+            <span class="value">{{CAL_count}} </span>
+            <span class="type">{{CAL_type}} {% if CAL_count > 1 %}CALs{%else%} CAL {%endif%}</span>
+        </div>      
+        <div class="result-values">
+            <span class="value">{{RCAL_count}}</span>
+            <span class="type">{{RCAL_type}}{% if RCAL_count > 1 %}CALs{%else%} CAL {%endif%}</span>
+        </div>      
+    </div>
+    <div class="recommendation-section suitable-result">
+        <div class="recommendation-heading">Our recommendation:</div><div class="standards">Windows {{standard}}</div>
+        <div class="details">
+            <ul class="list">
+                <li>Virtualize by enabling the optional Hyper-V hypervisor role (included).</li>
+                <li>Includes two virtual machines. You must license all physical cores of your server in order to use 2 VMs.</li>
+                <li>Server Standard 2019 requires CALs, which are not included unless stated.</li>
+            </ul>
+        </div>
+        <div class="recommended-image">
+            <img src="../assets/images/Product_2019-{{image}}.png">
+        </div>
+    </div>
+    
+{% else %}
+    <div class="calculator-result">
+        <div class="result-heading">{{heading}}</div>        
+    </div>
+    <div class="recommendation-section {% if suitable == false %}not-suitable{%endif%}">
+        <div class="recommendation-heading">Our recommendation:</div><div class="standards">Windows {{standard}}</div>
+        <div class="details">Instead of Windows Server 2019, Trusted Tech Team recommends
+        Windows Server Essentials, an easy-to-use server solution for
+        small businesses with u p to 25 users and 50 devices.
+        </div>
+        <div class="recommended-image">
+            <img src="../assets/images/Product_2019-essentials.png">
+        </div>
+    </div>
+{% endif %}
+
+<div class="buy-section {% if suitable %}suitable-result{%endif%} ">
+        <div class="buy">Ready to buy?</div>
+        <a  class=" button button-flex buy-section-call" onclick="sheduleACall()">
+            <div>Schedule call with us</div>
+        </a>
+        <a href="#" class="button-flex button button-hollow buy-section-summary">
+        <div>download your results summary</div> 
+        </a>
+</div>

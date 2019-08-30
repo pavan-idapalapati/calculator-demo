@@ -1,0 +1,27 @@
+{% set svgName = "" %}
+{% set pageTitle = "Questionary" %}
+{% set pageName = "index" %}
+{% extends "templates/sections/_skeleton-layout.html" %}
+
+{% block before_head_end %}
+	<link rel="stylesheet" href="{{ css_path }}questionary.css" type="text/css" />
+{% endblock %}
+
+{% block header %}
+	{% include "templates/sections/_header.html" %}
+{% endblock %}
+{% block content %}
+	<div class="progress-bar-parent">
+		<div class="progress__bar"></div>
+	</div>
+	<!-- page content here -->
+	<div class="main questionnaire">
+	</div>
+
+{% endblock %}
+
+
+
+{% block before_body_end %}
+    <script src="{{ js_path }}questionary.js" type="text/javascript"></script>
+{% endblock %}

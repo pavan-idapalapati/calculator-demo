@@ -1,0 +1,26 @@
+{% set svgName = "" %}
+{% set pageTitle = "Homepage" %}
+{% set pageName = "index" %}
+{% extends "templates/sections/_skeleton-layout.html" %}
+{% block before_head_end %}
+    <link rel="stylesheet" href="../assets/css/result.css" type="text/css"></link>
+    <link href="//cdn.shopify.com/s/files/1/1694/1769/t/24/assets/calendly-style.css?42336" rel="stylesheet" type="text/css" media="all" />
+{% endblock %}
+
+{% block header %}
+	{% include "templates/sections/_header.html" %}
+{% endblock %}
+
+{% block content%}
+	<div class="results"></div>
+{% endblock %}
+
+{% block footer %}
+	<div class="explore-section"></div>
+	{% include "templates/sections/_footer.html" %}
+{% endblock %}
+
+{% block before_body_end %}
+        <script src="{{ js_path }}results.js" type="text/javascript"></script>
+        <script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript"></script>
+{% endblock %}
